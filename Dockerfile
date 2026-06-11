@@ -7,10 +7,8 @@ RUN addgroup --system abs && adduser --system --ingroup abs absuser
 
 # Install dependencies first (layer cache)
 COPY pyproject.toml ./
-RUN pip install --no-cache-dir ".[all]" 2>/dev/null || pip install --no-cache-dir .
-
-# Copy source
 COPY src/ ./src/
+RUN pip install --no-cache-dir .
 
 # Switch to non-root
 USER absuser
