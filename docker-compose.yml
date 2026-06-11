@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  abs-librarian-mcp:
+    image: ghcr.io/rhamblen/audiobookshelf-librarian-mcp:latest
+    container_name: abs-librarian-mcp
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      # Must match the path your Audiobookshelf container uses for the library
+      - /mnt/user/audiobooks:/audiobooks:rw
+      - /mnt/user/quarantine:/quarantine:rw
+    environment:
+      ABS_URL: http://audiobookshelf:13378
+      ABS_TOKEN: ${ABS_TOKEN}
+      LIBRARY_ROOTS: /audiobooks
+      QUARANTINE_DIR: /quarantine
+      MCP_TOKEN: ${MCP_TOKEN}
+      DRY_RUN_DEFAULT: "true"
+      PORT: "8000"
+      AUDIT_LOG: /audiobooks/.abs-librarian-audit.jsonl
+      BLOB_HOURS_THRESHOLD: "6.0"
+      BLOB_FILE_COUNT_THRESHOLD: "10"
