@@ -15,6 +15,16 @@ async def app(scope, receive, send):
         response = JSONResponse({"status": "ok", "version": "0.1.0"})
         await response(scope, receive, send)
     else:
+        # FastMCP rejects non-localhost Host headers (DNS-rebinding protection).
+        # Rewrite to localhost so LAN connections are accepted.
+        if scope.get("headers"):
+            scope = {
+                **scope,
+                "headers": [
+                    (b"host", b"localhost") if k.lower() == b"host" else (k, v)
+                    for k, v in scope["headers"]
+                ],
+            }
         await _mcp_app(scope, receive, send)
 
 
