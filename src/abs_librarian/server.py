@@ -69,31 +69,29 @@ async def library_overview() -> dict:
     for lib in libs:
         items = await client.get_library_items(lib["id"])
         authors: set[str] = set()
-        series: set[str] = set()
         no_cover = 0
         no_series = 0
         missing = 0
+        series_data = await client.get_series(lib["id"])
         for item in items:
             media = item.get("media", {})
             meta = media.get("metadata", {})
             if item.get("isMissing"):
                 missing += 1
-            if not item.get("media", {}).get("coverPath"):
+            if not media.get("coverPath"):
                 no_cover += 1
-            s = meta.get("series") or []
-            if not s:
+            if not (meta.get("seriesName") or "").strip():
                 no_series += 1
-            else:
-                for sv in s:
-                    series.add(sv.get("name", ""))
-            for a in meta.get("authors") or []:
-                authors.add(a.get("name", ""))
+            for a in (meta.get("authorName") or "").split(","):
+                a = a.strip()
+                if a:
+                    authors.add(a)
         result.append({
             "id": lib["id"],
             "name": lib["name"],
             "items": len(items),
             "authors": len(authors),
-            "series": len(series),
+            "series": len(series_data),
             "no_cover": no_cover,
             "no_series": no_series,
             "missing": missing,
@@ -133,18 +131,16 @@ async def find_items(
 
         if missing and not item.get("isMissing"):
             continue
-        if no_cover and item.get("media", {}).get("coverPath"):
+        if no_cover and media.get("coverPath"):
             continue
-        item_series = meta.get("series") or []
-        if no_series and item_series:
+        item_series_name = (meta.get("seriesName") or "").strip()
+        if no_series and item_series_name:
             continue
-        if series and not any(
-            series.lower() in (sv.get("name") or "").lower() for sv in item_series
-        ):
+        if series and series.lower() not in item_series_name.lower():
             continue
         if author:
-            authors_str = " ".join(a.get("name", "") for a in (meta.get("authors") or []))
-            if author.lower() not in authors_str.lower():
+            author_name = (meta.get("authorName") or "").lower()
+            if author.lower() not in author_name:
                 continue
         title = meta.get("title") or item.get("path", "").split("/")[-1]
         if pattern and not pattern.search(title):
@@ -164,14 +160,14 @@ async def find_items(
         if max_file_count is not None and file_count > max_file_count:
             continue
 
+        author_str = meta.get("authorName") or ""
+        parsed_authors = [a.strip() for a in author_str.split(",") if a.strip()]
+        parsed_series = [{"name": item_series_name}] if item_series_name else []
         results.append({
             "id": item["id"],
             "title": title,
-            "authors": [a.get("name") for a in (meta.get("authors") or [])],
-            "series": [
-                {"name": sv.get("name"), "sequence": sv.get("sequence")}
-                for sv in item_series
-            ],
+            "authors": parsed_authors,
+            "series": parsed_series,
             "duration_hours": round(duration_hours, 2),
             "file_count": file_count,
             "path": item.get("path"),

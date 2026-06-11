@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.7] - 2026-06-12
+
+### Fixed
+- `library_overview` and `find_items` now correctly read authors and series from the ABS list
+  endpoint, which returns minified metadata using `authorName`/`seriesName` strings rather than
+  `authors`/`series` arrays (those are only in the expanded single-item response)
+- `library_overview` series count now uses the dedicated `/api/libraries/{id}/series` endpoint
+- Removed ineffective `include=authors,series` parameter that was not a valid ABS API option
+
 ## [0.2.6] - 2026-06-12
 
 ### Fixed
