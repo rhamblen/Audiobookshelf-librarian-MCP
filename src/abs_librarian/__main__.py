@@ -16,15 +16,15 @@ async def app(scope, receive, send):
         await response(scope, receive, send)
     else:
         # FastMCP rejects non-localhost Host headers (DNS-rebinding protection).
-        # Rewrite to localhost so LAN connections are accepted.
+        # Rewrite to localhost:<port> so LAN connections match the localhost:* allowlist.
         if scope.get("headers"):
-            scope = {
-                **scope,
-                "headers": [
-                    (b"host", b"localhost") if k.lower() == b"host" else (k, v)
-                    for k, v in scope["headers"]
-                ],
-            }
+            new_headers = []
+            for k, v in scope["headers"]:
+                if k.lower() == b"host":
+                    port = v.split(b":")[-1] if b":" in v else b"8000"
+                    v = b"localhost:" + port
+                new_headers.append((k, v))
+            scope = {**scope, "headers": new_headers}
         await _mcp_app(scope, receive, send)
 
 
