@@ -12,7 +12,7 @@
   <Overview>MCP server that lets an AI assistant maintain a self-hosted Audiobookshelf library — metadata repair and file-system fixes (blob splitting, folder flattening, quarantine). Move-only, dry-run by default, path-jailed.</Overview>
   <Category>Tools:</Category>
   <WebUI>http://[IP]:[PORT:8000]/health</WebUI>
-  <TemplateURL>https://raw.githubusercontent.com/rhamblen/Audiobookshelf-librarian-MCP/main/absl-template.xml</TemplateURL>
+  <TemplateURL>https://raw.githubusercontent.com/rhamblen/Audiobookshelf-librarian-MCP/main/ABSL-template.xml</TemplateURL>
   <Icon>https://image.pngaaa.com/870/9170870-middle.png</Icon>
   <ExtraParams>--restart=unless-stopped</ExtraParams>
   <PostArgs/>
