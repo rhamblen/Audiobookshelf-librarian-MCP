@@ -6,7 +6,7 @@ WORKDIR /app
 RUN addgroup --system abs && adduser --system --ingroup abs absuser
 
 # Install runtime dependencies
-RUN pip install --no-cache-dir "mcp[cli]>=1.0" "httpx>=0.27"
+RUN pip install --no-cache-dir "mcp[cli]>=1.0" "httpx>=0.27" "uvicorn>=0.30"
 
 # Copy source onto the Python path
 COPY src/ ./src/
