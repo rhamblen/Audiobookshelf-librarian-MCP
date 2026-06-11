@@ -52,7 +52,9 @@ class ABSClient:
         return data.get("libraries", [])
 
     async def get_library_items(self, library_id: str) -> list[dict]:
-        data = await self._get(f"/api/libraries/{library_id}/items", limit=0)
+        data = await self._get(
+            f"/api/libraries/{library_id}/items", limit=0, include="authors,series"
+        )
         return data.get("results", [])
 
     # ------------------------------------------------------------------

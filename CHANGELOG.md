@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.3] - 2026-06-12
+
+### Fixed
+- `find_items` and `library_overview` now return authors and series correctly by passing `include=authors,series` to the ABS library items endpoint
+
 ## [Unreleased]
 
 ### Added
