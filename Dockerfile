@@ -5,10 +5,12 @@ WORKDIR /app
 # Create non-root user
 RUN addgroup --system abs && adduser --system --ingroup abs absuser
 
-# Install dependencies first (layer cache)
-COPY pyproject.toml ./
+# Install runtime dependencies
+RUN pip install --no-cache-dir "mcp[cli]>=1.0" "httpx>=0.27"
+
+# Copy source onto the Python path
 COPY src/ ./src/
-RUN pip install --no-cache-dir .
+ENV PYTHONPATH=/app/src
 
 # Switch to non-root
 USER absuser
