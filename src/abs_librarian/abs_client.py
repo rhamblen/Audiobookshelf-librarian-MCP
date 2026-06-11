@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 from typing import Any
 
 import httpx
@@ -113,8 +114,9 @@ class ABSClient:
         return await self._post(f"/api/libraries/{library_id}/scan")
 
     async def get_library_items_missing(self, library_id: str) -> list[dict]:
+        f = base64.b64encode(b"issues.missing").decode()
         data = await self._get(
-            f"/api/libraries/{library_id}/items", filter="issues.missing", limit=0
+            f"/api/libraries/{library_id}/items", filter=f, limit=0
         )
         return data.get("results", [])
 

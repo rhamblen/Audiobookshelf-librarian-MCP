@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.4] - 2026-06-12
+
+### Fixed
+- `list_missing` and `purge_missing` now correctly filter missing items by base64-encoding the ABS filter parameter (`issues.missing`)
+
 ## [0.2.3] - 2026-06-12
 
 ### Fixed
