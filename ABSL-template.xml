@@ -13,7 +13,7 @@
   <Category>Tools:</Category>
   <WebUI>http://[IP]:[PORT:8000]/health</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/rhamblen/Audiobookshelf-librarian-MCP/main/ABSL-template.xml</TemplateURL>
-  <Icon>https://image.pngaaa.com/870/9170870-middle.png</Icon>
+  <Icon>https://github.com/advplyr/audiobookshelf/raw/master/client/static/Logo.png</Icon>
   <ExtraParams>--restart=unless-stopped</ExtraParams>
   <PostArgs/>
   <CPUset/>
@@ -24,7 +24,7 @@
 
   <Config Name="Port" Target="8000" Default="8000" Mode="tcp" Description="MCP server port" Type="Port" Display="always" Required="true" Mask="false">8000</Config>
 
-  <Config Name="ABS_URL" Target="ABS_URL" Default="http://192.168.1.100:13378" Description="URL of your Audiobookshelf instance (LAN address)" Type="Variable" Display="always" Required="true" Mask="false">http://192.168.1.100:13378</Config>
+  <Config Name="ABS_URL" Target="ABS_URL" Default="http://192.168.1.33:13378" Description="URL of your Audiobookshelf instance (LAN address)" Type="Variable" Display="always" Required="true" Mask="false">http://192.168.1.33:13378</Config>
 
   <Config Name="ABS_TOKEN" Target="ABS_TOKEN" Default="" Description="Audiobookshelf API token (Settings → Users → your user → API Token)" Type="Variable" Display="always" Required="true" Mask="true"/>
 
