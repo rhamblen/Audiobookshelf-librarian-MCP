@@ -218,7 +218,8 @@ def fs_move(
             shutil.move(str(s), str(d))
             result["ok"] = True
 
-    log_operation(audit_log, "fs_move", dry_run, **{k: v for k, v in result.items() if k != "dry_run"})
+    log_kwargs = {k: v for k, v in result.items() if k != "dry_run"}
+    log_operation(audit_log, "fs_move", dry_run, **log_kwargs)
     return result
 
 
@@ -260,5 +261,6 @@ def fs_quarantine(
             shutil.move(str(s), str(dest))
             result["ok"] = True
 
-    log_operation(audit_log, "fs_quarantine", dry_run, **{k: v for k, v in result.items() if k != "dry_run"})
+    log_kwargs = {k: v for k, v in result.items() if k != "dry_run"}
+    log_operation(audit_log, "fs_quarantine", dry_run, **log_kwargs)
     return result
