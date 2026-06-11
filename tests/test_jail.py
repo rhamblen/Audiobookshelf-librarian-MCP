@@ -1,8 +1,5 @@
 """Path-jail security tests — most critical unit tests in the project."""
 
-import os
-import tempfile
-from pathlib import Path
 
 import pytest
 

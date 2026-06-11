@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass
@@ -21,14 +21,16 @@ class Config:
     blob_file_count_threshold: int
 
     @classmethod
-    def from_env(cls) -> "Config":
+    def from_env(cls) -> Config:
         abs_url = os.environ["ABS_URL"].rstrip("/")
         abs_token = os.environ["ABS_TOKEN"]
         roots_raw = os.environ.get("LIBRARY_ROOTS", "")
         library_roots = [r for r in roots_raw.split(":") if r]
         quarantine_dir = os.environ.get("QUARANTINE_DIR", "/quarantine")
         mcp_token = os.environ.get("MCP_TOKEN", "")
-        dry_run_default = os.environ.get("DRY_RUN_DEFAULT", "true").lower() not in ("false", "0", "no")
+        dry_run_default = (
+            os.environ.get("DRY_RUN_DEFAULT", "true").lower() not in ("false", "0", "no")
+        )
         port = int(os.environ.get("PORT", "8000"))
         audit_log = os.environ.get("AUDIT_LOG", "/audiobooks/.abs-librarian-audit.jsonl")
         blob_hours = float(os.environ.get("BLOB_HOURS_THRESHOLD", "6.0"))

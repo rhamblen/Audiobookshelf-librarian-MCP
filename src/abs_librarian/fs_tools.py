@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from .audit import log_operation
-from .jail import PathJailError, resolve_safe
+from .jail import resolve_safe
 
 AUDIO_EXTS = {".mp3", ".m4b", ".m4a", ".flac", ".ogg", ".opus", ".aac", ".wav", ".wma"}
 META_FILES = {"metadata.json", "cover.jpg", "cover.png", "cover.jpeg", "cover.webp"}

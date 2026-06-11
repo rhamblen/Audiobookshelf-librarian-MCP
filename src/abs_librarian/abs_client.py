@@ -2,12 +2,9 @@
 
 from __future__ import annotations
 
-import asyncio
-import math
 from typing import Any
 
 import httpx
-
 
 AUDIBLE = "audible"
 _BATCH_SIZE = 100
@@ -114,7 +111,9 @@ class ABSClient:
         return await self._post(f"/api/libraries/{library_id}/scan")
 
     async def get_library_items_missing(self, library_id: str) -> list[dict]:
-        data = await self._get(f"/api/libraries/{library_id}/items", filter="issues.missing", limit=0)
+        data = await self._get(
+            f"/api/libraries/{library_id}/items", filter="issues.missing", limit=0
+        )
         return data.get("results", [])
 
     async def delete_item(self, item_id: str) -> dict:

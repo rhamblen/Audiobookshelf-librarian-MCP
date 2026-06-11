@@ -4,12 +4,10 @@ from __future__ import annotations
 
 import os
 import re
-from typing import Any, Optional
 
 from mcp.server.fastmcp import FastMCP
 
-from .abs_client import ABSClient, AUDIBLE
-from .audit import log_operation
+from .abs_client import AUDIBLE, ABSClient
 from .config import Config
 from .fs_tools import (
     detect_blobs,
@@ -110,16 +108,16 @@ async def library_overview() -> dict:
 @mcp.tool()
 async def find_items(
     library_id: str,
-    title_regex: Optional[str] = None,
-    author: Optional[str] = None,
-    series: Optional[str] = None,
+    title_regex: str | None = None,
+    author: str | None = None,
+    series: str | None = None,
     no_cover: bool = False,
     no_series: bool = False,
     missing: bool = False,
-    min_duration_hours: Optional[float] = None,
-    max_duration_hours: Optional[float] = None,
-    min_file_count: Optional[int] = None,
-    max_file_count: Optional[int] = None,
+    min_duration_hours: float | None = None,
+    max_duration_hours: float | None = None,
+    min_file_count: int | None = None,
+    max_file_count: int | None = None,
     limit: int = 200,
 ) -> dict:
     """Search library items with optional filters. Returns compact results."""
@@ -140,7 +138,9 @@ async def find_items(
         item_series = meta.get("series") or []
         if no_series and item_series:
             continue
-        if series and not any(series.lower() in (sv.get("name") or "").lower() for sv in item_series):
+        if series and not any(
+            series.lower() in (sv.get("name") or "").lower() for sv in item_series
+        ):
             continue
         if author:
             authors_str = " ".join(a.get("name", "") for a in (meta.get("authors") or []))
@@ -168,7 +168,10 @@ async def find_items(
             "id": item["id"],
             "title": title,
             "authors": [a.get("name") for a in (meta.get("authors") or [])],
-            "series": [{"name": sv.get("name"), "sequence": sv.get("sequence")} for sv in item_series],
+            "series": [
+                {"name": sv.get("name"), "sequence": sv.get("sequence")}
+                for sv in item_series
+            ],
             "duration_hours": round(duration_hours, 2),
             "file_count": file_count,
             "path": item.get("path"),
@@ -263,9 +266,9 @@ async def quick_match(
 @mcp.tool()
 async def set_cover(
     item_id: str,
-    url: Optional[str] = None,
-    search_title: Optional[str] = None,
-    search_author: Optional[str] = None,
+    url: str | None = None,
+    search_title: str | None = None,
+    search_author: str | None = None,
     provider: str = AUDIBLE,
 ) -> dict:
     """Set a cover from a URL, or search a provider and use the first result."""
@@ -308,7 +311,14 @@ async def list_missing(library_id: str) -> dict:
     items = await client.get_library_items_missing(library_id)
     return {
         "count": len(items),
-        "items": [{"id": i["id"], "path": i.get("path"), "title": i.get("media", {}).get("metadata", {}).get("title")} for i in items],
+        "items": [
+            {
+                "id": i["id"],
+                "path": i.get("path"),
+                "title": i.get("media", {}).get("metadata", {}).get("title"),
+            }
+            for i in items
+        ],
     }
 
 
@@ -362,8 +372,8 @@ async def tool_fs_tree(path: str, max_depth: int = 3) -> dict:
 @mcp.tool()
 async def tool_detect_blobs(
     path: str,
-    hours_threshold: Optional[float] = None,
-    file_count_threshold: Optional[int] = None,
+    hours_threshold: float | None = None,
+    file_count_threshold: int | None = None,
 ) -> dict:
     """Heuristic scan for blob folders and duplicate suspects."""
     try:
@@ -371,7 +381,9 @@ async def tool_detect_blobs(
             path,
             _permitted(),
             hours_threshold if hours_threshold is not None else cfg.blob_hours_threshold,
-            file_count_threshold if file_count_threshold is not None else cfg.blob_file_count_threshold,
+            file_count_threshold
+            if file_count_threshold is not None
+            else cfg.blob_file_count_threshold,
         )
     except PathJailError as e:
         return {"error": str(e)}

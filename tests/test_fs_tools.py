@@ -1,12 +1,9 @@
 """Tests for blob-split and flatten logic using a temp directory tree."""
 
-import shutil
-from pathlib import Path
 
 import pytest
 
 from abs_librarian.fs_tools import fs_flatten, fs_make_book_folders
-
 
 AUDIO_EXTS = [".mp3", ".m4b", ".flac"]
 
@@ -45,7 +42,12 @@ def test_make_book_folders_dry_run(blob_dir, tmp_path):
     assert result["dry_run"] is True
     assert result["count"] == 3
     # Files must NOT have moved
-    assert len(list(book_path.glob("*.mp3"))) + len(list(book_path.glob("*.m4b"))) + len(list(book_path.glob("*.flac"))) == 3
+    file_count = (
+        len(list(book_path.glob("*.mp3")))
+        + len(list(book_path.glob("*.m4b")))
+        + len(list(book_path.glob("*.flac")))
+    )
+    assert file_count == 3
 
 
 def test_make_book_folders_confirm(blob_dir, tmp_path):

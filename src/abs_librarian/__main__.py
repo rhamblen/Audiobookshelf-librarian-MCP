@@ -1,6 +1,5 @@
 """Entry point: python -m abs_librarian"""
 
-import json
 import uvicorn
 from starlette.responses import JSONResponse
 
