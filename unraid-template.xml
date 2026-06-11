@@ -13,7 +13,7 @@
   <Category>Tools:</Category>
   <WebUI>http://[IP]:[PORT:8000]/health</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/rhamblen/Audiobookshelf-librarian-MCP/main/unraid-template.xml</TemplateURL>
-  <Icon>https://raw.githubusercontent.com/rhamblen/Audiobookshelf-librarian-MCP/main/docs/icon.png</Icon>
+  <Icon>https://image.pngaaa.com/870/9170870-middle.png</Icon>
   <ExtraParams/>
   <PostArgs/>
   <CPUset/>
