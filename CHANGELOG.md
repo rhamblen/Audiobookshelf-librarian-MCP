@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5] - 2026-06-12
+
+### Fixed
+- `scan_library` and `quick_match` no longer crash on non-JSON ABS responses (all HTTP methods now use try/except around `.json()`)
+- `tool_fs_move` and `tool_fs_quarantine` no longer crash with duplicate `dry_run` kwarg in `log_operation` call
+- `tool_fs_tree` no longer returns oversized responses — audio file lists suppressed at all depths (counts still shown)
+
 ## [0.2.4] - 2026-06-12
 
 ### Fixed

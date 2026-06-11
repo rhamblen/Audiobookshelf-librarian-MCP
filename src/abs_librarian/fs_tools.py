@@ -61,7 +61,7 @@ def _walk(path: Path, max_depth: int, depth: int) -> dict[str, Any]:
         "name": path.name,
         "audio_count": len(audio_files),
         "total_bytes": total_bytes,
-        "audio_files": audio_files if depth <= 1 else [],
+        "audio_files": [],
         "subdirs": subdirs,
     }
 
@@ -218,7 +218,7 @@ def fs_move(
             shutil.move(str(s), str(d))
             result["ok"] = True
 
-    log_operation(audit_log, "fs_move", dry_run, **result)
+    log_operation(audit_log, "fs_move", dry_run, **{k: v for k, v in result.items() if k != "dry_run"})
     return result
 
 
@@ -260,5 +260,5 @@ def fs_quarantine(
             shutil.move(str(s), str(dest))
             result["ok"] = True
 
-    log_operation(audit_log, "fs_quarantine", dry_run, **result)
+    log_operation(audit_log, "fs_quarantine", dry_run, **{k: v for k, v in result.items() if k != "dry_run"})
     return result

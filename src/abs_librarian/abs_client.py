@@ -30,19 +30,28 @@ class ABSClient:
         async with httpx.AsyncClient(timeout=60) as client:
             r = await client.post(f"{self._base}{path}", headers=self._headers, json=body)
             r.raise_for_status()
-            return r.json() if r.content else {}
+            try:
+                return r.json()
+            except Exception:
+                return {}
 
     async def _patch(self, path: str, body: Any) -> Any:
         async with httpx.AsyncClient(timeout=30) as client:
             r = await client.patch(f"{self._base}{path}", headers=self._headers, json=body)
             r.raise_for_status()
-            return r.json() if r.content else {}
+            try:
+                return r.json()
+            except Exception:
+                return {}
 
     async def _delete(self, path: str) -> Any:
         async with httpx.AsyncClient(timeout=30) as client:
             r = await client.delete(f"{self._base}{path}", headers=self._headers)
             r.raise_for_status()
-            return r.json() if r.content else {}
+            try:
+                return r.json()
+            except Exception:
+                return {}
 
     # ------------------------------------------------------------------
     # Libraries
