@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.6] - 2026-06-12
+
+### Fixed
+- `set_cover` no longer crashes when ABS search_covers returns a list of URL strings instead of dicts
+
 ## [0.2.5] - 2026-06-12
 
 ### Fixed

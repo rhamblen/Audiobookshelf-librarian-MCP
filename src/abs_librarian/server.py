@@ -280,9 +280,13 @@ async def set_cover(
         covers = await client.search_covers(search_title, search_author or "", provider)
         if not covers:
             return {"error": "no covers found", "item_id": item_id}
-        first_url = covers[0].get("image") or covers[0].get("url") or covers[0]
-        if not isinstance(first_url, str):
-            return {"error": "unexpected cover format", "raw": covers[0]}
+        first = covers[0]
+        if isinstance(first, str):
+            first_url = first
+        else:
+            first_url = first.get("image") or first.get("url")
+        if not first_url:
+            return {"error": "unexpected cover format", "raw": first}
         result = await client.set_cover_url(item_id, first_url)
         return {"item_id": item_id, "source": "search", "cover_url": first_url, "result": result}
     return {"error": "provide url or search_title"}
