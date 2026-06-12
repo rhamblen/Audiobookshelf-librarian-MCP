@@ -1,18 +1,27 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>abs-librarian-mcp</Name>
+  <Template>Custom</Template>
+  <TemplateURL>local</TemplateURL>
+
   <Repository>ghcr.io/rhamblen/audiobookshelf-librarian-mcp:latest</Repository>
   <Registry>https://ghcr.io</Registry>
+
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
+
   <Support>https://github.com/rhamblen/Audiobookshelf-librarian-MCP</Support>
   <Project>https://github.com/rhamblen/Audiobookshelf-librarian-MCP</Project>
-  <Overview>MCP server that lets an AI assistant maintain a self-hosted Audiobookshelf library — metadata repair and file-system fixes (blob splitting, folder flattening, quarantine). Move-only, dry-run by default, path-jailed.</Overview>
+
+  <Overview>
+    MCP server that lets an AI assistant maintain a self-hosted Audiobookshelf library � metadata repair and file-system fixes (blob splitting, folder flattening, quarantine). Move-only, dry-run by default, path-jailed.
+  </Overview>
+
   <Category>Tools:</Category>
   <WebUI>http://[IP]:[PORT:8000]/health</WebUI>
-  <TemplateURL></TemplateURL>
+
   <Icon>https://github.com/advplyr/audiobookshelf/raw/master/client/static/Logo.png</Icon>
   <ExtraParams>--restart=unless-stopped</ExtraParams>
   <PostArgs/>
@@ -22,17 +31,17 @@
   <DonateLink/>
   <Requires/>
 
-  <Config Name="Port" Target="8000" Default="8000" Mode="tcp" Description="MCP server port" Type="Port" Display="always" Required="true" Mask="false">8000</Config>
+  <Config Name="Port" Target="8000" Default="3330" Mode="tcp" Description="MCP server port" Type="Port" Display="always" Required="true" Mask="false">3330</Config>
 
   <Config Name="ABS_URL" Target="ABS_URL" Default="http://192.168.1.33:13378" Description="URL of your Audiobookshelf instance (LAN address)" Type="Variable" Display="always" Required="true" Mask="false">http://192.168.1.33:13378</Config>
 
-  <Config Name="ABS_TOKEN" Target="ABS_TOKEN" Default="" Description="Audiobookshelf API token (Settings → Users → your user → API Token)" Type="Variable" Display="always" Required="true" Mask="false"></Config>
+  <Config Name="ABS_TOKEN" Target="ABS_TOKEN" Default="" Description="Audiobookshelf API token (Settings - Users - your user - API Token)" Type="Variable" Display="always" Required="true" Mask="false"></Config>
 
   <Config Name="MCP_TOKEN" Target="MCP_TOKEN" Default="" Description="Bearer token Claude uses to connect to this MCP server (generate a long random string)" Type="Variable" Display="always" Required="true" Mask="false"></Config>
 
-  <Config Name="Audiobooks Path" Target="/audiobooks" Default="/mnt/user/audiobooks" Description="Path to your audiobook library — must match the path Audiobookshelf uses" Type="Path" Display="always" Required="true" Mode="rw">/mnt/user/audiobooks</Config>
+  <Config Name="Audiobooks Path" Target="/audiobooks" Default="/mnt/user/media" Description="Path to your audiobook library � must match the path Audiobookshelf uses" Type="Path" Display="always" Required="true" Mode="rw">/mnt/user/media</Config>
 
-  <Config Name="Quarantine Path" Target="/quarantine" Default="/mnt/user/quarantine" Description="Where duplicates and unwanted files are moved (never deleted)" Type="Path" Display="always" Required="true" Mode="rw">/mnt/user/quarantine</Config>
+  <Config Name="Quarantine Path" Target="/quarantine" Default="/mnt/user/media" Description="Where duplicates and unwanted files are moved (never deleted)" Type="Path" Display="always" Required="true" Mode="rw">/mnt/user/media</Config>
 
   <Config Name="LIBRARY_ROOTS" Target="LIBRARY_ROOTS" Default="/audiobooks" Description="Colon-separated container paths for the library (path jail)" Type="Variable" Display="advanced" Required="true" Mask="false">/audiobooks</Config>
 
@@ -43,4 +52,5 @@
   <Config Name="BLOB_HOURS_THRESHOLD" Target="BLOB_HOURS_THRESHOLD" Default="6.0" Description="detect_blobs: flag items estimated over this many hours" Type="Variable" Display="advanced" Required="false" Mask="false">6.0</Config>
 
   <Config Name="BLOB_FILE_COUNT_THRESHOLD" Target="BLOB_FILE_COUNT_THRESHOLD" Default="10" Description="detect_blobs: flag items with at least this many audio files" Type="Variable" Display="advanced" Required="false" Mask="false">10</Config>
+
 </Container>
