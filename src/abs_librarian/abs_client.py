@@ -121,7 +121,7 @@ class ABSClient:
         return await self._post(f"/api/libraries/{library_id}/scan")
 
     async def get_library_items_missing(self, library_id: str) -> list[dict]:
-        f = base64.b64encode(b"issues.missing").decode()
+        f = "issues." + base64.b64encode(b"missing").decode()
         data = await self._get(
             f"/api/libraries/{library_id}/items", filter=f, limit=0
         )

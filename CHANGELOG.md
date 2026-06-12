@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.8] - 2026-06-12
+
+### Fixed
+- `list_missing` and `purge_missing`: ABS filter format is `{group}.{base64(value)}` not
+  `base64("{group}.{value}")` — fixed to `"issues." + base64("missing")`
+
 ## [0.2.7] - 2026-06-12
 
 ### Fixed
