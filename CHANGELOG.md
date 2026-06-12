@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.9] - 2026-06-12
+
+### Fixed
+- `library_overview` series count now derived from `seriesName` strings on items (same as
+  authors), replacing the broken `get_series()` endpoint call which returned 0 results.
+  Series names are deduplicated by stripping the sequence suffix (e.g. "Series #3" → "Series").
+
 ## [0.2.8] - 2026-06-12
 
 ### Fixed

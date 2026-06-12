@@ -69,10 +69,10 @@ async def library_overview() -> dict:
     for lib in libs:
         items = await client.get_library_items(lib["id"])
         authors: set[str] = set()
+        series: set[str] = set()
         no_cover = 0
         no_series = 0
         missing = 0
-        series_data = await client.get_series(lib["id"])
         for item in items:
             media = item.get("media", {})
             meta = media.get("metadata", {})
@@ -80,8 +80,12 @@ async def library_overview() -> dict:
                 missing += 1
             if not media.get("coverPath"):
                 no_cover += 1
-            if not (meta.get("seriesName") or "").strip():
+            series_name = (meta.get("seriesName") or "").strip()
+            if not series_name:
                 no_series += 1
+            else:
+                # seriesName may be "Series Name #N" — strip sequence for unique count
+                series.add(series_name.rsplit(" #", 1)[0].strip())
             for a in (meta.get("authorName") or "").split(","):
                 a = a.strip()
                 if a:
@@ -91,7 +95,7 @@ async def library_overview() -> dict:
             "name": lib["name"],
             "items": len(items),
             "authors": len(authors),
-            "series": len(series_data),
+            "series": len(series),
             "no_cover": no_cover,
             "no_series": no_series,
             "missing": missing,
