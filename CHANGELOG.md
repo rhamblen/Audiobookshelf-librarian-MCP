@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.10] - 2026-06-12
+
+### Fixed
+- `list_missing` and `purge_missing`: ABS filter API for `issues.missing` does not work reliably.
+  Replaced with client-side filtering: fetch all items and filter by `isMissing` flag, which is
+  the same approach used by `library_overview` (confirmed accurate).
+
 ## [0.2.9] - 2026-06-12
 
 ### Fixed
