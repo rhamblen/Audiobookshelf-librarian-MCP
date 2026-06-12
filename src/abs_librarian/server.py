@@ -327,6 +327,19 @@ async def list_missing(library_id: str) -> dict:
 
 
 @mcp.tool()
+async def delete_item(item_id: str, confirm: bool = False) -> dict:
+    """Delete a single ABS item record by ID (does NOT touch files). Requires confirm=True."""
+    if not confirm:
+        return {"dry_run": True, "would_delete": item_id}
+    client = _client()
+    try:
+        await client.delete_item(item_id)
+        return {"deleted": item_id}
+    except Exception as exc:
+        return {"error": str(exc), "item_id": item_id}
+
+
+@mcp.tool()
 async def purge_missing(library_id: str, confirm: bool = False) -> dict:
     """Delete ABS records for all missing items (does NOT touch files)."""
     client = _client()

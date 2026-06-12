@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.11] - 2026-06-12
+
+### Added
+- `delete_item` tool: delete a single ABS item record by ID (dry-run by default, requires confirm=True)
+
 ## [0.2.10] - 2026-06-12
 
 ### Fixed
